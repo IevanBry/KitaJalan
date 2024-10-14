@@ -11,12 +11,11 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="125sp"
+        android:layout_height="125dp"
         android:background="@drawable/ic_wave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </RelativeLayout>
 
     <TextView
@@ -26,6 +25,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_bold"
         android:text="Selamat Datang"
+        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
 
         <Button
             android:id="@+id/btnLogin"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="#A594F9"

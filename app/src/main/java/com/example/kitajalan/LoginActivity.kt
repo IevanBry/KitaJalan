@@ -36,13 +36,25 @@ class LoginActivity : AppCompatActivity() {
         val usernameVal  = sharedPrefs.getString("username", null)
         val passwordVal = sharedPrefs.getString("password", null)
 
+        val isLogin = sharedPrefs.getString("isLogin", null)
+        if (isLogin == "1") {
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+            finish()
+        }
+
         login.setOnClickListener{
             val a = username.text.toString()
             val b = password.text.toString()
 
             if(a == usernameVal && b == passwordVal){
+                val editor =  sharedPrefs.edit()
+                editor.putString("isLogin", "1")
+                editor.apply()
+
                 val i = Intent(this, MainActivity::class.java)
                 startActivity(i)
+                finish()
             } else {
                 AlertDialog.Builder(this)
                     .setTitle("Error")
