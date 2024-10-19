@@ -1,13 +1,13 @@
-package com.example.kitajalan
+package com.example.kitajalan.Activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.kitajalan.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,7 +23,7 @@ class SplashScreenActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch{
-            delay(2000)
+            delay(3000)
 
             val i = Intent(this@SplashScreenActivity, LoginActivity::class.java)
             startActivity(i)

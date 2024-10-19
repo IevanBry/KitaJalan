@@ -1,4 +1,4 @@
-package com.example.kitajalan
+package com.example.kitajalan.Activity
 
 import android.content.Context
 import android.content.Intent
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.kitajalan.R
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +37,9 @@ class LoginActivity : AppCompatActivity() {
         val usernameVal  = sharedPrefs.getString("username", null)
         val passwordVal = sharedPrefs.getString("password", null)
 
-        val isLogin = sharedPrefs.getString("isLogin", null)
-        if (isLogin == "1") {
+        val isLogin = sharedPrefs.getString("isLogin",null)
+
+        if(isLogin == "1"){
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
             finish()
@@ -48,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
             val b = password.text.toString()
 
             if(a == usernameVal && b == passwordVal){
-                val editor =  sharedPrefs.edit()
+                val editor = sharedPrefs.edit()
                 editor.putString("isLogin", "1")
                 editor.apply()
 
