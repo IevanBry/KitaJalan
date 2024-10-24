@@ -77,7 +77,5 @@ class LoginActivity : AppCompatActivity() {
             val i = Intent(this, RegisterActivity::class.java)
             startActivity(i)
         }
-
-        //Function Untuk Snackbar
     }
 }

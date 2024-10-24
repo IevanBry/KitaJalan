@@ -6,8 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.ContactsContract.Profile
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kitajalan.R
 import domain.TrendsDomain
+import androidx.fragment.app.Fragment
+import com.example.kitajalan.Activity.fragment.MainFragment
+import com.example.kitajalan.Activity.fragment.ProfileFragment
+import com.example.kitajalan.Activity.fragment.SettingsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var trendsAdapter: TrendsAdapter
-    private lateinit var trendsList: ArrayList<TrendsDomain>
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,29 +40,26 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // Inisialisasi RecyclerView
-        recyclerView = findViewById(R.id.recycler)
-        recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
 
-        // Mengambil data untuk ditampilkan
-        trendsList = ArrayList()
-        loadTrendsData()
+        bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.home -> replaceFragment(MainFragment())
+                R.id.profile-> replaceFragment(ProfileFragment())
+                R.id.settings -> replaceFragment(SettingsFragment())
+                else -> {
 
-        // Mengatur adapter untuk RecyclerView
-        trendsAdapter = TrendsAdapter(trendsList, this)
-        recyclerView.adapter = trendsAdapter
+                }
+            }
+            true
+        }
 
-
-        val textView: TextView = findViewById(R.id.WelcomeText)
-        val sharedPreferences: SharedPreferences =
-            getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
-        val usernameVal = sharedPreferences.getString("username", null)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, MainFragment())
+            .commit()
 
 //        val btnWebView: Button = findViewById(R.id.btnWebView)
 //        val btnLogout: Button = findViewById(R.id.logout)
-
-        textView.setText(usernameVal.toString())
 
 //        btnWebView.setOnClickListener{
 //            val i = Intent(this, WebViewActivity::class.java)
@@ -78,10 +78,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
     }
-    private fun loadTrendsData() {
-        trendsList.add(TrendsDomain("Bali", "Bali merupakan pantai yang indah", "bali"))
-        trendsList.add(TrendsDomain("Judul 2", "Subtitle 2", "bali"))
-        trendsList.add(TrendsDomain("Judul 3", "Subtitle 3", "bali"))
-        // Tambahkan lebih banyak data sesuai kebutuhan
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container,fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }
