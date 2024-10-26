@@ -2,4 +2,7 @@
     <string name="app_name">KitaJalan</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome1">Selamat datang di aplikasi pariwisata kami!</string>
+    <string name="welcome2">Temukan destinasi impian Anda dan buat kenangan tak terlupakan.</string>
+    <string name="welcome3">Jelajahi, rencanakan, dan nikmati setiap perjalanan Anda dengan mudah!</string>
 </resources>

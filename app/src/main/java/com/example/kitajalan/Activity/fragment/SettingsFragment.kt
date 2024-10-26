@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.kitajalan.Activity.LoginActivity
 import com.example.kitajalan.R
+import com.google.android.material.snackbar.Snackbar
 
 class SettingsFragment : Fragment() {
     override fun onCreateView(
@@ -27,6 +28,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val btnLogout: RelativeLayout = view.findViewById(R.id.btnLogout)
+        val btnResetWelcome : RelativeLayout = view.findViewById(R.id.btnResetWelcome)
         val welcomeTextView : TextView = view.findViewById(R.id.textNameSettings)
 
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
@@ -48,6 +50,9 @@ class SettingsFragment : Fragment() {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     activity?.finish()
+
+                    // Tampilkan Snackbar saat logout
+                    ShowSnackBar(view, "Anda telah logout.")
                 }
                 .setNegativeButton("Tidak") { dialogInterface, which ->
                     Toast.makeText(requireContext(), "Tidak Logout", Toast.LENGTH_LONG).show()
@@ -55,5 +60,16 @@ class SettingsFragment : Fragment() {
                 }
                 .show()
         }
+        btnResetWelcome.setOnClickListener{
+            val editor = sharedPreferences.edit()
+            editor.putString("isWelcome", "0")
+            editor.apply()
+
+            ShowSnackBar(view, "Welcome screen telah di-reset.")
+        }
+    }
+    private fun ShowSnackBar(view: View, message: String) {
+        val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        snackbar.show()
     }
 }

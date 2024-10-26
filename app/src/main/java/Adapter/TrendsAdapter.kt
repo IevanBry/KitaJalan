@@ -3,14 +3,17 @@ package Adapter
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kitajalan.Activity.MainActivity
 import com.example.kitajalan.Activity.WebViewActivity
 import com.example.kitajalan.Activity.WebViewBali
+import com.example.kitajalan.Activity.fragment.DetailFragment
 import com.example.kitajalan.R
 import domain.TrendsDomain
 
@@ -32,8 +35,23 @@ class TrendsAdapter(private val items: ArrayList<TrendsDomain>, private val cont
         holder.itemView.setOnClickListener {
             when (trend.title) {
                 "Bali" -> {
-                    val intent = Intent(context, WebViewBali::class.java)
-                    context.startActivity(intent)
+                    val baliDescription = "Bali is a beautiful Indonesian island known for " +
+                            "its stunning beaches, vibrant culture, and lush rice terraces. " +
+                            "It's a popular destination for tourists seeking relaxation, adventure, " +
+                            "and unique experiences."
+                    val bundle = Bundle().apply {
+                        putString("description", baliDescription)
+                    }
+
+                    val activity = context as? MainActivity
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.fragment_container, DetailFragment().apply { arguments = bundle })
+                        ?.addToBackStack(null)
+                        ?.commit()
+
+                    //Menampilkan webview bali
+//                    val intent = Intent(context, WebViewBali::class.java)
+//                    context.startActivity(intent)
                 }
             }
         }
