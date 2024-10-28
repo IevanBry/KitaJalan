@@ -12,7 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import basic_list_view.ListView
 import com.example.kitajalan.Activity.LoginActivity
+import com.example.kitajalan.Activity.basic_recyclerview.RecyclerViewActivity
 import com.example.kitajalan.R
 import com.google.android.material.snackbar.Snackbar
 
@@ -29,6 +31,8 @@ class SettingsFragment : Fragment() {
 
         val btnLogout: RelativeLayout = view.findViewById(R.id.btnLogout)
         val btnResetWelcome : RelativeLayout = view.findViewById(R.id.btnResetWelcome)
+        val btnList : RelativeLayout = view.findViewById(R.id.btnList)
+        val btnRecycler : RelativeLayout = view.findViewById(R.id.btnRecyclerView)
         val welcomeTextView : TextView = view.findViewById(R.id.textNameSettings)
 
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
@@ -66,6 +70,16 @@ class SettingsFragment : Fragment() {
             editor.apply()
 
             ShowSnackBar(view, "Welcome screen telah di-reset.")
+        }
+
+        btnList.setOnClickListener {
+            val intent = Intent(activity, ListView::class.java)
+            startActivity(intent)
+        }
+
+        btnRecycler.setOnClickListener {
+            val intent = Intent(activity, RecyclerViewActivity::class.java)
+            startActivity(intent)
         }
     }
     private fun ShowSnackBar(view: View, message: String) {

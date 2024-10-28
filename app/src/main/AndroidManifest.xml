@@ -16,6 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.basic_recyclerview.RecyclerViewActivity"
+            android:exported="false" />
+        <activity
+            android:name="basic_list_view.ListView"
+            android:exported="false" />
+        <activity
             android:name=".Activity.WelcomeScreenActivity"
             android:exported="false" />
         <activity
