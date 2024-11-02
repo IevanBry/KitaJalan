@@ -20,6 +20,7 @@ class MainFragment : Fragment() {
     private lateinit var trendsAdapter: TrendsAdapter
     private lateinit var trendsList: ArrayList<TrendsDomain>
     private lateinit var welcomeTextView: TextView
+    private lateinit var seeAll: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,33 +30,38 @@ class MainFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler)
         welcomeTextView = view.findViewById(R.id.WelcomeText)
+        seeAll = view.findViewById(R.id.btnSeeAll)
 
-        // Mengatur layout manager untuk RecyclerView
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        // Mengambil data untuk ditampilkan di RecyclerView
         trendsList = ArrayList()
         loadTrendsData()
 
-        // Mengatur adapter untuk RecyclerView
         trendsAdapter = TrendsAdapter(trendsList, requireContext())
         recyclerView.adapter = trendsAdapter
 
-        // Mengambil data dari SharedPreferences
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
         val usernameVal = sharedPreferences.getString("username", "Guest")
 
-        // Menampilkan username di TextView
         welcomeTextView.text = usernameVal.toString().replaceFirstChar { it.uppercase() }
+
+        seeAll.setOnClickListener {
+             val transaction = parentFragmentManager.beginTransaction()
+             transaction.replace(R.id.fragment_container, SeeAllFragment())
+             transaction.addToBackStack(null)
+             transaction.commit()
+        }
 
         return view
     }
 
-    // Fungsi untuk memuat data tren
     private fun loadTrendsData() {
-        trendsList.add(TrendsDomain("Bali", "Bali merupakan pantai yang indah", "bali"))
-        trendsList.add(TrendsDomain("Judul 2", "Subtitle 2", "bali"))
-        trendsList.add(TrendsDomain("Judul 3", "Subtitle 3", "bali"))
+        trendsList.add(TrendsDomain("Bali", "Bali merupakan pantai yang indah", "bali",
+            "Bali is a beautiful Indonesian island known for its stunning beaches, vibrant culture, " +
+                    "and lush rice terraces. It's a popular destination for tourists seeking relaxation, " +
+                    "adventure, and unique experiences.", "500.000"))
+        trendsList.add(TrendsDomain("Judul 2", "Subtitle 2", "asia_farm", "Description for Judul 2, detailing what makes it unique or interesting.", "400.000"))
+        trendsList.add(TrendsDomain("Judul 3", "Subtitle 3", "borobudur_2", "Description for Judul 3, with highlights and points of interest.", "800.000"))
     }
 }

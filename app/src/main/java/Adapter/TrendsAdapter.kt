@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.kitajalan.Activity.WebViewBali
 import com.example.kitajalan.Activity.fragment.DetailFragment
 import com.example.kitajalan.R
 import domain.TrendsDomain
+import com.squareup.picasso.Picasso
 
 class TrendsAdapter(private val items: ArrayList<TrendsDomain>, private val context: Context) : RecyclerView.Adapter<TrendsAdapter.ViewHolder>() {
 
@@ -29,31 +31,39 @@ class TrendsAdapter(private val items: ArrayList<TrendsDomain>, private val cont
         holder.title.text = trend.title
         holder.subtitle.text = trend.subtitle
 
+        // Mencetak semua isi dari trend
+//        Log.d("TrendsAdapter", "Trend Item: $trend")
+
         val drawableResourceId = context.resources.getIdentifier(trend.picAddress, "drawable", context.packageName)
-        holder.pic.setImageResource(drawableResourceId)
+        if (trend.picAddress.startsWith("http") || trend.picAddress.startsWith("https")) {
+            Picasso.get()
+                .load(trend.picAddress)
+                .into(holder.pic)
+        } else {
+            holder.pic.setImageResource(drawableResourceId)
+        }
 
         holder.itemView.setOnClickListener {
-            when (trend.title) {
-                "Bali" -> {
-                    val baliDescription = "Bali is a beautiful Indonesian island known for " +
-                            "its stunning beaches, vibrant culture, and lush rice terraces. " +
-                            "It's a popular destination for tourists seeking relaxation, adventure, " +
-                            "and unique experiences."
-                    val bundle = Bundle().apply {
-                        putString("description", baliDescription)
-                    }
+            val title = trend.title
+            val description = trend.description
+            val price = trend.price
+            val imageResource = context.resources.getIdentifier(trend.picAddress, "drawable", context.packageName)
+            val isFavorite = trend.isFavorite
 
-                    val activity = context as? MainActivity
-                    activity?.supportFragmentManager?.beginTransaction()
-                        ?.replace(R.id.fragment_container, DetailFragment().apply { arguments = bundle })
-                        ?.addToBackStack(null)
-                        ?.commit()
 
-                    //Menampilkan webview bali
-//                    val intent = Intent(context, WebViewBali::class.java)
-//                    context.startActivity(intent)
-                }
+            val bundle = Bundle().apply {
+                putString("title", title)
+                putString("description", description)
+                putString("price", price)
+                putInt("image", imageResource)
+                putBoolean("isFavorite", isFavorite)
             }
+
+            val activity = context as? MainActivity
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_container, DetailFragment().apply { arguments = bundle })
+                ?.addToBackStack(null)
+                ?.commit()
         }
     }
 

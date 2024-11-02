@@ -28,17 +28,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/favorite_button"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginEnd="32dp"
                 android:src="@drawable/fav"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintBottom_toBottomOf="@+id/iconBack"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView5" />
+                app:layout_constraintTop_toTopOf="@+id/iconBack" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/iconBack"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="32dp"
@@ -144,17 +144,18 @@
                 android:textColor="@color/black"
                 android:textSize="30sp" />
 
-            <Button
-                android:id="@+id/bookBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginBottom="50dp"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="Book Now"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
         </LinearLayout>
+
+        <Button
+            android:id="@+id/bookBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="0.5"
+            android:layout_marginHorizontal="30dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Book Now"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 </ScrollView>

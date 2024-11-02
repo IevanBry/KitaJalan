@@ -1,7 +1,10 @@
 package domain
 
 data class TrendsDomain(
-    var title: String,
-    var subtitle: String,
-    var picAddress: String
+    val title: String,
+    val subtitle: String,
+    val picAddress: String,
+    val description: String,
+    val price: String,
+    var isFavorite: Boolean = false
 )
