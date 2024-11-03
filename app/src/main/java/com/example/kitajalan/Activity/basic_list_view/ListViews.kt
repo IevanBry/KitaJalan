@@ -1,4 +1,4 @@
-package basic_list_view
+package com.example.kitajalan.Activity.basic_list_view
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,7 +9,7 @@ import com.example.kitajalan.R
 import android.widget.ListView
 import android.widget.Toast
 
-class ListView : AppCompatActivity() {
+class ListViews : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

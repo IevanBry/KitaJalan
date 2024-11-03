@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
             "Bali is a beautiful Indonesian island known for its stunning beaches, vibrant culture, " +
                     "and lush rice terraces. It's a popular destination for tourists seeking relaxation, " +
                     "adventure, and unique experiences.", "500.000"))
-        trendsList.add(TrendsDomain("Judul 2", "Subtitle 2", "asia_farm", "Description for Judul 2, detailing what makes it unique or interesting.", "400.000"))
+        trendsList.add(TrendsDomain("Asia Heritage", "Subtitle 2", "asia_farm", "Asia heritage merupakan wisata yang ada di Pekanbaru", "400.000"))
         trendsList.add(TrendsDomain("Judul 3", "Subtitle 3", "borobudur_2", "Description for Judul 3, with highlights and points of interest.", "800.000"))
     }
 }

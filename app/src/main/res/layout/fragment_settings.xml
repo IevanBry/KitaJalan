@@ -73,7 +73,7 @@
                 <ListView
                     android:id="@+id/settingsListView"
                     android:layout_width="match_parent"
-                    android:layout_height="398dp"
+                    android:layout_height="311dp"
                     android:layout_weight="1"
                     android:divider="@color/black"
                     android:dividerHeight="0.5dp"

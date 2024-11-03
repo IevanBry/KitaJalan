@@ -1,4 +1,4 @@
-package basic_list_view
+package com.example.kitajalan.Activity.basic_list_view
 
 class ListModel(
     val name: String,

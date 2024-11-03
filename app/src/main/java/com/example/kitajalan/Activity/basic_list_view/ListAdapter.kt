@@ -1,4 +1,4 @@
-package basic_list_view
+package com.example.kitajalan.Activity.basic_list_view
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -19,7 +19,7 @@
             android:name=".Activity.basic_recyclerview.RecyclerViewActivity"
             android:exported="false" />
         <activity
-            android:name="basic_list_view.ListView"
+            android:name=".Activity.basic_list_view.ListViews"
             android:exported="false" />
         <activity
             android:name=".Activity.WelcomeScreenActivity"
@@ -32,7 +32,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

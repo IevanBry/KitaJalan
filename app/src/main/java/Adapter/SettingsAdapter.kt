@@ -16,12 +16,12 @@ class SettingsAdapter(
 ) : ArrayAdapter<SettingsDomain>(context, 0, menuList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
+        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.list_item_settings, parent, false)
 
         val menuItem = getItem(position)
 
-        val imageView: ImageView = view.findViewById(R.id.imageView)
-        val textView: TextView = view.findViewById(R.id.textName)
+        val imageView: ImageView = view.findViewById(R.id.itemIcon)
+        val textView: TextView = view.findViewById(R.id.itemText)
 
         menuItem?.let {
             imageView.setImageResource(it.imageResId)
