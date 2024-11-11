@@ -16,6 +16,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name="quiz_1.LinkTutorialActivity"
+            android:exported="false" />
+        <activity
+            android:name="quiz_1.KubusActivity"
+            android:exported="false" />
+        <activity
+            android:name="quiz_1.Quiz1Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ForgotActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.basic_recyclerview.RecyclerViewActivity"
             android:exported="false" />
         <activity
@@ -32,6 +44,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

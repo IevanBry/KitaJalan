@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.kitajalan.R
+import quiz_1.Quiz1Activity
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
         var password: EditText = findViewById(R.id.password_input)
         var login: Button = findViewById(R.id.btnLogin)
         var btnSignUp:TextView = findViewById(R.id.btnSignUp)
+        val btnForgot : TextView = findViewById(R.id.btnForgot)
+        val btnQuiz : TextView = findViewById(R.id.btnQuiz1)
 
 
         //Mengambil Shared Preferences
@@ -75,6 +78,16 @@ class LoginActivity : AppCompatActivity() {
         //Membuat Aksi
         btnSignUp.setOnClickListener{
             val i = Intent(this, RegisterActivity::class.java)
+            startActivity(i)
+        }
+
+        btnForgot.setOnClickListener{
+            val i = Intent(this, ForgotActivity::class.java)
+            startActivity(i)
+            finish()
+        }
+        btnQuiz.setOnClickListener {
+            val i = Intent(this, Quiz1Activity::class.java)
             startActivity(i)
         }
     }
