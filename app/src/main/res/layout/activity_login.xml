@@ -113,19 +113,6 @@
             app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
         <TextView
-            android:id="@+id/btnQuiz1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="60dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="Link ke quiz 1"
-            android:textColor="#A594F9"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_input" />
-
-        <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -142,13 +129,12 @@
             android:id="@+id/btnForgot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Forgot Password?"
             android:textColor="#A594F9"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/btnQuiz1"
-            app:layout_constraintHorizontal_bias="0.738"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_input" />
     </androidx.constraintlayout.widget.ConstraintLayout>

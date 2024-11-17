@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.kitajalan.R
 import androidx.fragment.app.Fragment
 import com.example.kitajalan.Activity.fragment.MainFragment
-import com.example.kitajalan.Activity.fragment.FavoriteFragment
+import com.example.kitajalan.Activity.fragment.SearchFragment
 import com.example.kitajalan.Activity.fragment.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> replaceFragment(MainFragment())
-                R.id.profile-> replaceFragment(FavoriteFragment())
+                R.id.search-> replaceFragment(SearchFragment())
                 R.id.settings -> replaceFragment(SettingsFragment())
                 else -> {
 

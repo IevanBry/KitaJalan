@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
         var login: Button = findViewById(R.id.btnLogin)
         var btnSignUp:TextView = findViewById(R.id.btnSignUp)
         val btnForgot : TextView = findViewById(R.id.btnForgot)
-        val btnQuiz : TextView = findViewById(R.id.btnQuiz1)
 
 
         //Mengambil Shared Preferences
@@ -85,10 +84,6 @@ class LoginActivity : AppCompatActivity() {
             val i = Intent(this, ForgotActivity::class.java)
             startActivity(i)
             finish()
-        }
-        btnQuiz.setOnClickListener {
-            val i = Intent(this, Quiz1Activity::class.java)
-            startActivity(i)
         }
     }
 }

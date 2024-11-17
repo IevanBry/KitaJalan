@@ -1,4 +1,4 @@
-package domain
+package Domain
 
 data class TrendsDomain(
     val title: String,

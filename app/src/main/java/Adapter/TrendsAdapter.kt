@@ -16,7 +16,7 @@ import com.example.kitajalan.Activity.WebViewActivity
 import com.example.kitajalan.Activity.WebViewBali
 import com.example.kitajalan.Activity.fragment.DetailFragment
 import com.example.kitajalan.R
-import domain.TrendsDomain
+import Domain.TrendsDomain
 import com.squareup.picasso.Picasso
 
 class TrendsAdapter(private val items: ArrayList<TrendsDomain>, private val context: Context) : RecyclerView.Adapter<TrendsAdapter.ViewHolder>() {

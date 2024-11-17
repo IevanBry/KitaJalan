@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingBottom="200dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,20 +69,46 @@
                 android:textColor="@color/white"
                 android:textSize="28sp" />
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_auto"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="150dp"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="10dp">
 
-                <SearchView
-                    android:id="@+id/searchView"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/auto_slider"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_corner"
-                    android:backgroundTint="@color/white"
-                    android:queryHint="Cari tempat wisata..." />
+                    android:layout_height="match_parent" />
 
-            </LinearLayout>
+                <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                    android:id="@+id/worn_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    app:layout_constraintTop_toBottomOf="@id/card_auto"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="16dp" />
+
+                </androidx.cardview.widget.CardView>
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginTop="20dp">-->
+
+<!--                <SearchView-->
+<!--                    android:id="@+id/searchView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/rounded_corner"-->
+<!--                    android:backgroundTint="@color/white"-->
+<!--                    android:queryHint="Cari tempat wisata..." />-->
+
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 
@@ -138,27 +163,32 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Popular"
+                android:text="Kategori"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:text="See All"
-                android:textColor="@color/purple"
-                android:textSize="16sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView11"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/poppins_bold"-->
+<!--                android:text="See All"-->
+<!--                android:textColor="@color/purple"-->
+<!--                android:textSize="16sp" />-->
         </LinearLayout>
 
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/grid_menu_home"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <include layout="@layout/main_menu_grid"/>-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler2"
+            android:id="@+id/recycler_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp" />
-
+            android:padding="8dp"
+            android:scrollbars="vertical" />
     </LinearLayout>
 </ScrollView>

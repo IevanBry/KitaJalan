@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.kitajalan.R
-import domain.TrendsDomain
 
 class DetailFragment : Fragment() {
 
