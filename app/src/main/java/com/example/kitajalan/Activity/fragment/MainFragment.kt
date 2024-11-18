@@ -98,7 +98,7 @@ class MainFragment : Fragment() {
             GridItem("Mountain",R.drawable.cat5),
             GridItem("Hiking",R.drawable.cat5)
         )
-        gridRecyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+        gridRecyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 3)
         val gridAdapter = GridAdapter(gridItems) { selectedItem ->
             handleGridItemClick(selectedItem)
         }
