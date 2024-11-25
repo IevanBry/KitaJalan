@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -47,4 +50,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.dotsindicator)
     implementation(libs.picasso)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.logging.interceptor)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation ("androidx.activity:activity-ktx:1.7.2")
 }

@@ -17,19 +17,35 @@ import com.example.kitajalan.Activity.WebViewBali
 import com.example.kitajalan.Activity.fragment.DetailFragment
 import com.example.kitajalan.R
 import Domain.TrendsDomain
+import com.example.kitajalan.Activity.fragment.MainFragment
+import com.example.kitajalan.databinding.ListItemBinding
+import com.example.kitajalan.databinding.MainMenuGridBinding
+import com.example.kitajalan.databinding.ViewholderTrendBinding
 import com.squareup.picasso.Picasso
 
-class TrendsAdapter(private val items: ArrayList<TrendsDomain>, private val context: Context) : RecyclerView.Adapter<TrendsAdapter.ViewHolder>() {
+class TrendsAdapter(private var items: ArrayList<TrendsDomain>, private val context: Context) : RecyclerView.Adapter<TrendsAdapter.ViewHolder>() {
+
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+//        val view = LayoutInflater.from(parent.context).inflate(R.layout.viewholder_trend, parent, false)
+//        return ViewHolder(view)
+//    }
+
+    fun updateData(newItems: ArrayList<TrendsDomain>){
+        items = newItems
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.viewholder_trend, parent, false)
-        return ViewHolder(view)
+        val binding =  ViewholderTrendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        // Mengembalikan ViewHolder dengan binding yang telah diinflate
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val trend = items[position]
-        holder.title.text = trend.title
-        holder.subtitle.text = trend.subtitle
+        holder.binding.title.text = trend.title
+        holder.binding.subtitle.text = trend.subtitle
 
         // Mencetak semua isi dari trend
 //        Log.d("TrendsAdapter", "Trend Item: $trend")
@@ -38,9 +54,9 @@ class TrendsAdapter(private val items: ArrayList<TrendsDomain>, private val cont
         if (trend.picAddress.startsWith("http") || trend.picAddress.startsWith("https")) {
             Picasso.get()
                 .load(trend.picAddress)
-                .into(holder.pic)
+                .into(holder.binding.pic)
         } else {
-            holder.pic.setImageResource(drawableResourceId)
+            holder.binding.pic.setImageResource(drawableResourceId)
         }
 
         holder.itemView.setOnClickListener {
@@ -71,9 +87,10 @@ class TrendsAdapter(private val items: ArrayList<TrendsDomain>, private val cont
         return items.size
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.title)
-        val subtitle: TextView = itemView.findViewById(R.id.subtitle)
-        val pic: ImageView = itemView.findViewById(R.id.pic)
-    }
+//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//        val title: TextView = itemView.findViewById(R.id.title)
+//        val subtitle: TextView = itemView.findViewById(R.id.subtitle)
+//        val pic: ImageView = itemView.findViewById(R.id.pic)
+//    }
+    class ViewHolder(val  binding: ViewholderTrendBinding) : RecyclerView.ViewHolder(binding.root)
 }

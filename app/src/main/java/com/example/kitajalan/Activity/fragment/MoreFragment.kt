@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.kitajalan.R
+import com.example.kitajalan.databinding.BottomSheetLayoutBinding
+import com.example.kitajalan.databinding.FragmentMoreBinding
+import com.example.kitajalan.databinding.FragmentNotificationBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -20,39 +23,45 @@ import java.util.Locale
 import java.util.Optional
 
 class MoreFragment : Fragment() {
-
+    private var _binding : FragmentMoreBinding? = null
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentMoreBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_more, container, false)
-        setupFAB(view)
-        return view
+//        val view = inflater.inflate(R.layout.fragment_more, container, false)
+//        setupFAB(view)
+        setupFAB(binding)
+        return binding.root
     }
 
-    private fun setupFAB(view: View) {
-        val fab: FloatingActionButton = view.findViewById(R.id.fab)
-        fab.setOnClickListener {
+    private fun setupFAB(binding: FragmentMoreBinding) {
+//        val fab: FloatingActionButton = view.findViewById(R.id.fab)
+        binding.fab.setOnClickListener {
             showBottomSheetDialog()
         }
     }
 
     private fun showBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_layout, null)
-        bottomSheetDialog.setContentView(view)
+//        val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_layout, null)
+
+        val bottomSheetBinding = BottomSheetLayoutBinding.inflate(LayoutInflater.from(requireContext()))
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+
         bottomSheetDialog.show()
 
-        initChips(view)
-
-        initDatePicker(view)
-
-        initSingleChoiceDialog(view)
+        initChips(bottomSheetBinding)
+        initDatePicker(bottomSheetBinding)
+        initSingleChoiceDialog(bottomSheetBinding)
     }
 
-    private fun initChips(view: View) {
-        val chipGroup: ChipGroup = view.findViewById(R.id.chipGroup)
+    private fun initChips(binding: BottomSheetLayoutBinding) {
+//        val chipGroup: ChipGroup = view.findViewById(R.id.chipGroup)
+        val chipGroup: ChipGroup = binding.chipGroup
 
         val tags = listOf("Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5")
         for (tag in tags) {
@@ -64,12 +73,13 @@ class MoreFragment : Fragment() {
         }
     }
 
-    private fun initDatePicker(view: View) {
+    private fun initDatePicker(binding: BottomSheetLayoutBinding) {
         val datepicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Pilih Tanggal")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .build()
-        val inputDate: TextInputEditText = view.findViewById(R.id.inputDate)
+//        val inputDate: TextInputEditText = view.findViewById(R.id.inputDate)
+        val inputDate: TextInputEditText = binding.inputDate
         inputDate.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Material Design Dialog")
@@ -90,10 +100,11 @@ class MoreFragment : Fragment() {
         }
     }
 
-    private fun initSingleChoiceDialog(view: View) {
+    private fun initSingleChoiceDialog(binding: BottomSheetLayoutBinding) {
         val options = arrayOf("Pilihan 1", "Pilihan 2", "Pilihan 3", "Pilihan 4")
         val selectedOption = 0
-        val inputOthers: TextInputEditText = view.findViewById(R.id.inputOthers)
+//        val inputOthers: TextInputEditText = view.findViewById(R.id.inputOthers)
+        val inputOthers: TextInputEditText = binding.inputOthers
 
         inputOthers.setOnClickListener {
             showSingleChoiceDialog(options, selectedOption) { choice ->
