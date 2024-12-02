@@ -1,6 +1,7 @@
 package com.example.kitajalan.Activity.fragment
 
 import Adapter.AutoSliderAdapter
+import Adapter.DestinationAdapter
 import Adapter.GridAdapter
 import Adapter.GridItem
 import Adapter.TrendsAdapter
@@ -19,10 +20,15 @@ import com.example.kitajalan.R
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import Domain.TrendsDomain
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.kitajalan.Activity.MainActivity
 import com.example.kitajalan.Activity.basic_api.data.network.RetrofitInstance
+import com.example.kitajalan.Activity.basic_api.data.repository.SerpApiRepository
 import com.example.kitajalan.Activity.basic_api.data.repository.UserRepository
+import com.example.kitajalan.Activity.basic_api.ui.viewModel.DestinationViewModel
 import com.example.kitajalan.Activity.basic_api.ui.viewModel.UserViewModel
+import com.example.kitajalan.Activity.basic_api.utils.DestinationViewModelFactory
 import com.example.kitajalan.Activity.basic_api.utils.ViewModelFactory
 import com.example.kitajalan.databinding.FragmentMainBinding
 
@@ -37,6 +43,14 @@ class MainFragment : Fragment() {
     private lateinit var seeAll: TextView
     private lateinit var gridRecyclerView: RecyclerView
 
+    private val viewModel by lazy {
+        val repository = SerpApiRepository() // Create the repository instance
+        val factory = DestinationViewModelFactory(repository) // Create the factory with the repository
+        ViewModelProvider(this, factory).get(DestinationViewModel::class.java)
+    }
+
+    private lateinit var destinationAdapter: DestinationAdapter
+
     private val userViewModel: UserViewModel by lazy {
         val repository = UserRepository(RetrofitInstance.getJsonPlaceHolderApi())
         ViewModelProvider(
@@ -49,7 +63,6 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
 //        val view = inflater.inflate(R.layout.fragment_main, container, false)
@@ -58,6 +71,7 @@ class MainFragment : Fragment() {
         setupGridView(binding)
 //        setupRecyclerView(binding)
         setupNewsHorizontalApi(binding)
+        setupRecyclerViewAndLoadData(binding)
 
 //        return view
         return binding.root
@@ -164,10 +178,30 @@ class MainFragment : Fragment() {
                 adapter.updateData(ArrayList(newsItems))
             }
         }
-
-        // Set the adapter to the RecyclerView
         binding.recycler.adapter = adapter
         binding.recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
+    private fun setupRecyclerViewAndLoadData(binding: FragmentMainBinding) {
+        val recyclerView: RecyclerView = binding.recyclerDestinasi
+        val noDestinationsTextView: TextView = binding.textViewNoDestinations
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        viewModel.destinations.observe(viewLifecycleOwner) { destinations ->
+            if (destinations.isNullOrEmpty()) {
+                noDestinationsTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                noDestinationsTextView.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+                destinationAdapter = DestinationAdapter(destinations)
+                recyclerView.adapter = destinationAdapter
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            Log.e("MainFragment", "Error fetching destinations: $error")
+            Toast.makeText(requireContext(), "Failed to load data: $error", Toast.LENGTH_LONG).show()
+        }
+        viewModel.fetchDestinations()
+    }
 }
