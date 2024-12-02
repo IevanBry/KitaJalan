@@ -21,16 +21,20 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import Domain.TrendsDomain
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Visibility
 import com.example.kitajalan.Activity.MainActivity
 import com.example.kitajalan.Activity.basic_api.data.network.RetrofitInstance
 import com.example.kitajalan.Activity.basic_api.data.repository.SerpApiRepository
 import com.example.kitajalan.Activity.basic_api.data.repository.UserRepository
 import com.example.kitajalan.Activity.basic_api.ui.viewModel.DestinationViewModel
+import com.example.kitajalan.Activity.basic_api.ui.viewModel.Resource
 import com.example.kitajalan.Activity.basic_api.ui.viewModel.UserViewModel
 import com.example.kitajalan.Activity.basic_api.utils.DestinationViewModelFactory
 import com.example.kitajalan.Activity.basic_api.utils.ViewModelFactory
 import com.example.kitajalan.databinding.FragmentMainBinding
+import retrofit2.Retrofit
 
 class MainFragment : Fragment() {
     private var _binding : FragmentMainBinding? = null
@@ -51,12 +55,18 @@ class MainFragment : Fragment() {
 
     private lateinit var destinationAdapter: DestinationAdapter
 
-    private val userViewModel: UserViewModel by lazy {
-        val repository = UserRepository(RetrofitInstance.getJsonPlaceHolderApi())
-        ViewModelProvider(
-            this,
-            ViewModelFactory(UserViewModel::class.java) { UserViewModel(repository) }
-        )[UserViewModel::class.java]
+//    private val userViewModel: UserViewModel by lazy {
+//        val repository = UserRepository(RetrofitInstance.getJsonPlaceHolderApi())
+//        ViewModelProvider(
+//            this,
+//            ViewModelFactory(UserViewModel::class.java) { UserViewModel(repository) }
+//        )[UserViewModel::class.java]
+//    }
+    private  val userViewModel: UserViewModel by activityViewModels {
+        ViewModelFactory(UserViewModel::class.java){
+            val repository = UserRepository(RetrofitInstance.getJsonPlaceHolderApi())
+            UserViewModel(repository)
+        }
     }
 
     override fun onCreateView(
@@ -162,21 +172,72 @@ class MainFragment : Fragment() {
     }
     private fun setupNewsHorizontalApi(binding: FragmentMainBinding) {
         val adapter = TrendsAdapter(ArrayList(), requireContext())
-        userViewModel.getUsers().observe(viewLifecycleOwner) { response ->
-            if (response != null) {
-                Log.d("MainFragment", "Received response: ${response.size} items")
-                val newsItems = response.map { data ->
-                    TrendsDomain(
-                        picAddress = "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=1024",
-                        title = data.name,
-                        subtitle = "Subtitle for ${data.name}",
-                        description = "Description for ${data.name}",
-                        price = "Price for ${data.name}",
-                        isFavorite = false
-                    )
+
+        userViewModel.getUsers(requireContext())
+        userViewModel.data.observe(viewLifecycleOwner){resource ->
+            when(resource){
+                is Resource.Empty -> {
+                    binding.emptyNewHoriList.root.visibility = View.VISIBLE
+                    binding.loadingNewHoriList.root.visibility = View.GONE
+                    binding.errorNewHorilist.root.visibility = View.GONE
+                    binding.recycler.visibility = View.GONE
+
+                    binding.emptyNewHoriList.emptyMessage.text = resource.message
+                    Log.d("Data User", "Data Kosong. ($resource.message})")
                 }
-                adapter.updateData(ArrayList(newsItems))
+                is Resource.Error -> {
+                    binding.emptyNewHoriList.root.visibility = View.GONE
+                    binding.loadingNewHoriList.root.visibility = View.GONE
+                    binding.errorNewHorilist.root.visibility = View.VISIBLE
+                    binding.recycler.visibility = View.GONE
+                    binding.errorNewHorilist.errorMessage.text = resource.message
+                    binding.errorNewHorilist.retryButton.setOnClickListener{
+                        userViewModel.getUsers(requireContext(), true)
+                    }
+                    Log.d("Data User", resource.message.toString())
+                }
+                is Resource.Loading -> {
+                    binding.emptyNewHoriList.root.visibility = View.GONE
+                    binding.loadingNewHoriList.root.visibility = View.VISIBLE
+                    binding.errorNewHorilist.root.visibility = View.GONE
+                    binding.recycler.visibility = View.GONE
+                    Log.d("Data User", "Mohon Tunggu..")
+                }
+                is Resource.Success -> {
+                    binding.emptyNewHoriList.root.visibility = View.GONE
+                    binding.loadingNewHoriList.root.visibility = View.GONE
+                    binding.errorNewHorilist.root.visibility = View.GONE
+                    binding.recycler.visibility = View.VISIBLE
+                    Log.d("Data User", "Data berhasil didapatkan")
+
+                    val newsItem = resource.data!!.mapIndexed{ index, data ->
+                        TrendsDomain(
+                            picAddress = "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=1024",
+                            title = data.name,
+                            subtitle = "Subtitle for ${data.name}",
+                            description = "Description for ${data.name}",
+                            price = "Price for ${data.name}",
+                            isFavorite = false
+                        )
+                    }
+                    adapter.updateData(ArrayList(newsItem))
+                }
             }
+//        userViewModel.getUsers().observe(viewLifecycleOwner) { response ->
+//            if (response != null) {
+//                Log.d("MainFragment", "Received response: ${response.size} items")
+//                val newsItems = response.map { data ->
+//                    TrendsDomain(
+//                        picAddress = "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=1024",
+//                        title = data.name,
+//                        subtitle = "Subtitle for ${data.name}",
+//                        description = "Description for ${data.name}",
+//                        price = "Price for ${data.name}",
+//                        isFavorite = false
+//                    )
+//                }
+//                adapter.updateData(ArrayList(newsItems))
+//            }
         }
         binding.recycler.adapter = adapter
         binding.recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
