@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Visibility
 import com.example.kitajalan.Activity.MainActivity
 import com.example.kitajalan.Activity.basic_api.data.network.RetrofitInstance
+import com.example.kitajalan.Activity.basic_api.data.network.RetrofitInstance.getSerpApi
 import com.example.kitajalan.Activity.basic_api.data.repository.SerpApiRepository
 import com.example.kitajalan.Activity.basic_api.data.repository.UserRepository
 import com.example.kitajalan.Activity.basic_api.ui.viewModel.DestinationViewModel
@@ -46,14 +47,15 @@ class MainFragment : Fragment() {
     private lateinit var welcomeTextView: TextView
     private lateinit var seeAll: TextView
     private lateinit var gridRecyclerView: RecyclerView
+    private lateinit var destinationAdapter: DestinationAdapter
 
     private val viewModel by lazy {
-        val repository = SerpApiRepository() // Create the repository instance
-        val factory = DestinationViewModelFactory(repository) // Create the factory with the repository
-        ViewModelProvider(this, factory).get(DestinationViewModel::class.java)
+        val repository = SerpApiRepository(getSerpApi())
+        ViewModelProvider(
+            this,
+            DestinationViewModelFactory(DestinationViewModel::class.java) { DestinationViewModel(repository) }
+        )[DestinationViewModel::class.java]
     }
-
-    private lateinit var destinationAdapter: DestinationAdapter
 
 //    private val userViewModel: UserViewModel by lazy {
 //        val repository = UserRepository(RetrofitInstance.getJsonPlaceHolderApi())
@@ -82,7 +84,6 @@ class MainFragment : Fragment() {
 //        setupRecyclerView(binding)
         setupNewsHorizontalApi(binding)
         setupRecyclerViewAndLoadData(binding)
-
 //        return view
         return binding.root
     }
@@ -243,26 +244,49 @@ class MainFragment : Fragment() {
         binding.recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
     private fun setupRecyclerViewAndLoadData(binding: FragmentMainBinding) {
-        val recyclerView: RecyclerView = binding.recyclerDestinasi
-        val noDestinationsTextView: TextView = binding.textViewNoDestinations
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        destinationAdapter = DestinationAdapter(emptyList())
+        binding.recyclerDestinasi.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerDestinasi.adapter = destinationAdapter
 
-        viewModel.destinations.observe(viewLifecycleOwner) { destinations ->
-            if (destinations.isNullOrEmpty()) {
-                noDestinationsTextView.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
-            } else {
-                noDestinationsTextView.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
-                destinationAdapter = DestinationAdapter(destinations)
-                recyclerView.adapter = destinationAdapter
+        // Observasi perubahan pada LiveData
+        viewModel.destinations.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    // Menampilkan tampilan loading
+                    binding.loadingDestination.root.visibility = View.VISIBLE
+                    binding.recyclerDestinasi.visibility = View.GONE
+                    binding.emptyDestination.root.visibility = View.GONE
+                    binding.errorDestination.root.visibility = View.GONE
+                }
+
+                is Resource.Success -> {
+                    binding.loadingDestination.root.visibility = View.GONE
+                    binding.recyclerDestinasi.visibility = View.VISIBLE
+                    binding.emptyDestination.root.visibility = View.GONE
+                    binding.errorDestination.root.visibility = View.GONE
+                    destinationAdapter.updateData(resource.data ?: emptyList())
+                }
+
+                is Resource.Error -> {
+                    binding.loadingDestination.root.visibility = View.GONE
+                    binding.recyclerDestinasi.visibility = View.GONE
+                    binding.emptyDestination.root.visibility = View.GONE
+                    binding.errorDestination.root.visibility = View.VISIBLE
+
+                    binding.errorDestination.retryButton.setOnClickListener {
+                        viewModel.fetchDestinations(requireContext(), "Bali")
+                    }
+                }
+
+                is Resource.Empty -> {
+                    binding.loadingDestination.root.visibility = View.GONE
+                    binding.recyclerDestinasi.visibility = View.GONE
+                    binding.emptyDestination.root.visibility = View.VISIBLE
+                    binding.errorDestination.root.visibility = View.GONE
+                }
             }
         }
-
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            Log.e("MainFragment", "Error fetching destinations: $error")
-            Toast.makeText(requireContext(), "Failed to load data: $error", Toast.LENGTH_LONG).show()
-        }
-        viewModel.fetchDestinations()
+        viewModel.fetchDestinations(requireContext(), "Bali")
     }
+
 }

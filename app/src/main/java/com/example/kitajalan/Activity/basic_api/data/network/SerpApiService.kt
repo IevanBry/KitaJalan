@@ -7,5 +7,5 @@ import retrofit2.http.QueryMap
 
 interface SerpApiService {
     @GET("search.json")
-    fun getPopularDestinations(@QueryMap parameters: Map<String, String>): Call<ApiResponse>
+    fun getPopularDestinations(@QueryMap parameters: Map<String, String>) : Call<ApiResponse>
 }

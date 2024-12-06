@@ -1,5 +1,6 @@
 package Adapter
 
+import Domain.TrendsDomain
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,13 @@ import com.example.kitajalan.R
 import com.squareup.picasso.Picasso
 
 class DestinationAdapter(
-    private val destinations: List<Destination>
+    private var destinations: List<Destination>
 ) : RecyclerView.Adapter<DestinationAdapter.DestinationViewHolder>() {
 
+    fun updateData(newItems: List<Destination>){
+        destinations = newItems
+        notifyDataSetChanged()
+    }
     class DestinationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)

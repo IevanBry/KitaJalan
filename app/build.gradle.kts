@@ -55,7 +55,7 @@ dependencies {
     implementation (libs.logging.interceptor)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
-    implementation ("androidx.activity:activity-ktx:1.7.2")
-    implementation ("androidx.fragment:fragment-ktx:1.8.5")
-    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation ("androidx.activity:activity-ktx:1.9.3")
+    implementation (libs.androidx.fragment.ktx)
+    implementation (libs.shimmer)
 }

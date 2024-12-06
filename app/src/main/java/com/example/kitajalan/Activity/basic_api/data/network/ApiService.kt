@@ -10,7 +10,8 @@ import retrofit2.http.POST
 
 interface ApiService {
     @GET("users")
-    suspend fun getUsers(): List<User>    @POST("product")
+    suspend fun getUsers(): List<User>
+    @POST("product")
     suspend fun createProduct(
         @Header("Authorization") token: String,
         @Body products: List<ProductPostRequest>,
