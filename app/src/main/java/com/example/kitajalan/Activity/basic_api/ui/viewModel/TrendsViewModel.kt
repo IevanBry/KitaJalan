@@ -20,7 +20,7 @@ class TrendsViewModel(private val repository: TrendsRepository) : ViewModel(){
     val createStatus : LiveData<Resource<Unit>> = _createStatus
 
     private val _deleteStatus = MutableLiveData<Resource<Unit>>()
-    val deleteStatus : LiveData<Resource<Unit>> = _deleteStatus
+    val deleteStatus: LiveData<Resource<Unit>> = _deleteStatus
 
     fun getTrends(context: Context, forceRefresh: Boolean = false) {
         if (_data.value == null || forceRefresh) {
@@ -60,6 +60,24 @@ class TrendsViewModel(private val repository: TrendsRepository) : ViewModel(){
             }
         } else {
             _createStatus.postValue(Resource.Error("No internet connection"))
+        }
+    }
+
+    fun deleteTrend(context: Context, uuid: String) {
+        if (NetworkUtils.isNetworkAvailable(context)) {
+            viewModelScope.launch {
+                try {
+                    _deleteStatus.value = Resource.Loading()
+                    repository.deleteDestination(uuid)
+                    _deleteStatus.postValue(Resource.Success(Unit))
+
+                    getTrends(context, forceRefresh = true)
+                } catch (e: Exception) {
+                    _deleteStatus.postValue(Resource.Error("Unknown error: ${e.message}"))
+                }
+            }
+        } else {
+            _deleteStatus.postValue(Resource.Error("No internet connection"))
         }
     }
 }

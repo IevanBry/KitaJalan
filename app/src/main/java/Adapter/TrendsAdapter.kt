@@ -58,14 +58,12 @@ class TrendsAdapter(
             }
 
             holder.binding.btnDelete.setOnClickListener {
-                onDeleteClick(trend.title)
+                onDeleteClick(trend._uuid)
             }
         } else if (holder is UserViewHolder) {
-            // Binding untuk user
             holder.binding.title.text = trend.title
             holder.binding.subtitle.text = trend.subtitle
 
-            // Memuat gambar menggunakan Picasso
             loadImage(trend.picAddress, holder.binding.pic)
 
             holder.itemView.setOnClickListener {

@@ -49,7 +49,6 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
                     val response = repository.createProduct(product)
                     _createStatus.postValue(Resource.Success(Unit))
 
-                    // Refresh data setelah create sukses
                     getProducts(context, forceRefresh = true)
                 } catch (e: Exception) {
                     _data.postValue(Resource.Error("Unknown error: ${e.message}"))

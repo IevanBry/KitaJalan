@@ -43,8 +43,8 @@ class AdminDestinationFragment : Fragment() {
     ): View? {
         _binding = FragmentAdminDestinationBinding.inflate(inflater, container, false)
 
-        trendsAdapter = TrendsAdapter(mutableListOf(), requireContext()) { title ->
-//            deleteDestination(title)
+        trendsAdapter = TrendsAdapter(mutableListOf(), requireContext()) { uuid ->
+            deleteDestination(uuid)
         }
         binding.recyclerWisata.adapter = trendsAdapter
 
@@ -140,28 +140,27 @@ class AdminDestinationFragment : Fragment() {
             }
         }
     }
+    private fun deleteDestination(uuid: String) {
+        trendsViewModel.deleteTrend(requireContext(), uuid)
+        trendsViewModel.deleteStatus.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    Snackbar.make(binding.root, "Menghapus destinasi...", Snackbar.LENGTH_SHORT).show()
+                }
 
-//    private fun deleteDestination(title: String) {
-//        trendsViewModel.deleteTrends(requireContext(), title)
-//        trendsViewModel.deleteStatus.observe(viewLifecycleOwner) { resource ->
-//            when (resource) {
-//                is Resource.Loading -> {
-//                    Snackbar.make(binding.root, "Menghapus destinasi...", Snackbar.LENGTH_SHORT).show()
-//                }
-//
-//                is Resource.Success -> {
-//                    Snackbar.make(binding.root, "Destinasi berhasil dihapus!", Snackbar.LENGTH_SHORT).show()
-//                    getDestination()
-//                }
-//
-//                is Resource.Error -> {
-//                    Snackbar.make(binding.root, resource.message ?: "Gagal menghapus destinasi.", Snackbar.LENGTH_LONG).show()
-//                }
-//
-//                else -> {}
-//            }
-//        }
-//    }
+                is Resource.Success -> {
+                    Snackbar.make(binding.root, "Destinasi berhasil dihapus!", Snackbar.LENGTH_SHORT).show()
+                    getDestination()
+                }
+
+                is Resource.Error -> {
+                    Snackbar.make(binding.root, resource.message ?: "Gagal menghapus destinasi.", Snackbar.LENGTH_LONG).show()
+                }
+
+                else -> {}
+            }
+        }
+    }
 
     private fun setupFAB() {
         binding.fab.setOnClickListener {
@@ -182,6 +181,8 @@ class AdminDestinationFragment : Fragment() {
             val description = bottomSheetBinding.inputDescription.text.toString().trim()
             val price = bottomSheetBinding.inputPrice.text.toString().trim()
 
+            val defaultImage = "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=1024"
+
             if (title.isEmpty() || subtitle.isEmpty() || description.isEmpty() || price.isEmpty()) {
                 Snackbar.make(
                     binding.root,
@@ -191,10 +192,12 @@ class AdminDestinationFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            val finalPicAddress = if (picAddress.isEmpty()) defaultImage else picAddress
+
             val newTrend = TrendsPostRequest(
                 title = title,
                 subtitle = subtitle,
-                picAddress = picAddress,
+                picAddress = finalPicAddress,
                 description = description,
                 price = price
             )
@@ -205,7 +208,6 @@ class AdminDestinationFragment : Fragment() {
 
         bottomSheetDialog.show()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

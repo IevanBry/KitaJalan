@@ -36,5 +36,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body trends: List<TrendsPostRequest>,
     ): TrendsResponse
+    @DELETE("trends/{uuid}")
+
+    suspend fun deleteTrends(
+        @Header("Authorization") token: String,
+        @Path("uuid") uuid: String
+    ): Response<Unit>
+
 
 }

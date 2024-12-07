@@ -16,4 +16,9 @@ class TrendsRepository(
     suspend fun createDestination(trends: List<TrendsPostRequest>): TrendsResponse {
         return api.createTrends(tokenBearer, trends)
     }
+
+    suspend fun deleteDestination(uuid: String): Unit {
+        api.deleteTrends(tokenBearer, uuid)
+    }
+
 }
