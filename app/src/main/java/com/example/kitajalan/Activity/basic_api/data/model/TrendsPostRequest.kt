@@ -1,6 +1,6 @@
-package Domain
+package com.example.kitajalan.Activity.basic_api.data.model
 
-data class TrendsDomain(
+class TrendsPostRequest (
     val title: String,
     val subtitle: String,
     val picAddress: String,

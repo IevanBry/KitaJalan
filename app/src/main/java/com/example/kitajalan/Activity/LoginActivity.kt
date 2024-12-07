@@ -4,9 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -14,76 +11,98 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.kitajalan.R
-import quiz_1.Quiz1Activity
+import com.example.kitajalan.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
+
+    private var _binding: ActivityLoginBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        _binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // Mengambil ID dari Activity
-        var username: EditText = findViewById(R.id.username_input)
-        var password: EditText = findViewById(R.id.password_input)
-        var login: Button = findViewById(R.id.btnLogin)
-        var btnSignUp:TextView = findViewById(R.id.btnSignUp)
-        val btnForgot : TextView = findViewById(R.id.btnForgot)
 
-
-        //Mengambil Shared Preferences
-        val sharedPrefs : SharedPreferences = getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
-        val usernameVal  = sharedPrefs.getString("username", null)
+        val sharedPrefs: SharedPreferences = getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
+        val usernameVal = sharedPrefs.getString("username", null)
         val passwordVal = sharedPrefs.getString("password", null)
+        val isLogin = sharedPrefs.getString("isLogin", null)
+        val userRole = sharedPrefs.getString("role", "user")
 
-        val isLogin = sharedPrefs.getString("isLogin",null)
-
-        if(isLogin == "1"){
-            val i = Intent(this, MainActivity::class.java)
-            startActivity(i)
+        // Cek jika user sudah login
+        if (isLogin == "1") {
+            if (userRole == "admin") {
+                val i = Intent(this, AdminActivity::class.java)
+                startActivity(i)
+            } else {
+                val i = Intent(this, MainActivity::class.java)
+                startActivity(i)
+            }
             finish()
         }
 
-        login.setOnClickListener{
-            val a = username.text.toString()
-            val b = password.text.toString()
+        binding.btnLogin.setOnClickListener {
+            val a = binding.usernameInput.text.toString()
+            val b = binding.passwordInput.text.toString()
 
-            if(a == usernameVal && b == passwordVal){
+            if (a == usernameVal && b == passwordVal) {
                 val editor = sharedPrefs.edit()
                 editor.putString("isLogin", "1")
+
+                if (a == "admin") {
+                    editor.putString("role", "admin")
+                } else {
+                    editor.putString("role", "user")
+                }
                 editor.apply()
 
-                val i = Intent(this, MainActivity::class.java)
-                startActivity(i)
+                if (a == "admin") {
+                    val i = Intent(this, AdminActivity::class.java)
+                    startActivity(i)
+                } else {
+                    val i = Intent(this, MainActivity::class.java)
+                    startActivity(i)
+                }
                 finish()
             } else {
                 AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Username atau password anda salah apakah ingin mengulang?")
-                    .setPositiveButton("Yes"){ dialogInterface, which->
+                    .setPositiveButton("Yes") { dialogInterface, _ ->
                         dialogInterface.dismiss()
                         Toast.makeText(this, "Oke", Toast.LENGTH_LONG).show()
                     }
-                    .setNegativeButton("No"){ dialogInterface, which->
+                    .setNegativeButton("No") { dialogInterface, _ ->
                         finish()
                     }
                     .show()
             }
         }
 
-        //Membuat Aksi
-        btnSignUp.setOnClickListener{
+        binding.btnSignUp.setOnClickListener {
             val i = Intent(this, RegisterActivity::class.java)
             startActivity(i)
+            finish()
         }
 
-        btnForgot.setOnClickListener{
+        binding.btnForgot.setOnClickListener {
             val i = Intent(this, ForgotActivity::class.java)
             startActivity(i)
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

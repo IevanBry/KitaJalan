@@ -1,7 +1,7 @@
 package com.example.kitajalan.Activity.fragment
 
 import Adapter.TrendsAdapter
-import Domain.TrendsDomain
+import com.example.kitajalan.Activity.basic_api.data.model.TrendsDomain
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,13 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kitajalan.Activity.basic_api.data.model.ProductPostRequest
 import com.example.kitajalan.Activity.basic_api.data.network.RetrofitInstance
 import com.example.kitajalan.Activity.basic_api.data.repository.ProductRepository
-import com.example.kitajalan.Activity.basic_api.data.repository.UserRepository
 import com.example.kitajalan.Activity.basic_api.ui.viewModel.ProductViewModel
 import com.example.kitajalan.Activity.basic_api.ui.viewModel.Resource
-import com.example.kitajalan.Activity.basic_api.ui.viewModel.UserViewModel
 import com.example.kitajalan.Activity.basic_api.utils.ViewModelFactory
-import com.example.kitajalan.R
-import com.example.kitajalan.databinding.FragmentInformationBinding
 import com.example.kitajalan.databinding.FragmentNotificationBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -42,7 +38,8 @@ class NotificationFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentNotificationBinding.inflate(inflater, container, false)
 
-        adapter = TrendsAdapter(ArrayList(),requireContext())
+        val adapter = TrendsAdapter(emptyList(), requireContext()) { title ->
+        }
         binding.productList.adapter = adapter
         binding.productList.layoutManager = LinearLayoutManager(this.context)
 
@@ -91,18 +88,6 @@ class NotificationFragment : Fragment() {
                     binding.loadingProduct.root.visibility = View.GONE
                     binding.errorProduct.root.visibility = View.GONE
                     binding.productList.visibility = View.VISIBLE
-
-                    val productItem = resource.data!!.items.mapIndexed { index, data ->
-                        TrendsDomain(
-                            picAddress = "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=1024",
-                            title = data.name,
-                            subtitle = "Subtitle for ${data.name}",
-                            description = "Description for ${data.name}",
-                            price = "Price for ${data.name}",
-                                isFavorite = false
-                        )
-                    }
-                    adapter.updateData(ArrayList(productItem))
                 }
             }
         }

@@ -30,15 +30,11 @@ class MoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMoreBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-//        val view = inflater.inflate(R.layout.fragment_more, container, false)
-//        setupFAB(view)
         setupFAB(binding)
         return binding.root
     }
 
     private fun setupFAB(binding: FragmentMoreBinding) {
-//        val fab: FloatingActionButton = view.findViewById(R.id.fab)
         binding.fab.setOnClickListener {
             showBottomSheetDialog()
         }
@@ -46,7 +42,6 @@ class MoreFragment : Fragment() {
 
     private fun showBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
-//        val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_layout, null)
 
         val bottomSheetBinding = BottomSheetLayoutBinding.inflate(LayoutInflater.from(requireContext()))
 

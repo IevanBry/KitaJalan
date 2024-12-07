@@ -1,96 +1,108 @@
 package Adapter
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kitajalan.Activity.MainActivity
-import com.example.kitajalan.Activity.WebViewActivity
-import com.example.kitajalan.Activity.WebViewBali
 import com.example.kitajalan.Activity.fragment.DetailFragment
 import com.example.kitajalan.R
-import Domain.TrendsDomain
-import com.example.kitajalan.Activity.fragment.MainFragment
-import com.example.kitajalan.databinding.ListItemBinding
-import com.example.kitajalan.databinding.MainMenuGridBinding
+import com.example.kitajalan.Activity.basic_api.data.model.TrendsDomain
+import com.example.kitajalan.databinding.ItemTrendAdminBinding
 import com.example.kitajalan.databinding.ViewholderTrendBinding
 import com.squareup.picasso.Picasso
 
-class TrendsAdapter(private var items: ArrayList<TrendsDomain>, private val context: Context) : RecyclerView.Adapter<TrendsAdapter.ViewHolder>() {
+class TrendsAdapter(
+    private var items: List<TrendsDomain>,
+    private val context: Context,
+    private val onDeleteClick: (String) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.viewholder_trend, parent, false)
-//        return ViewHolder(view)
-//    }
+    private val sharedPrefs: SharedPreferences = context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
+    private val userRole: String = sharedPrefs.getString("role", "user") ?: "user"
 
-    fun updateData(newItems: ArrayList<TrendsDomain>){
+    private val VIEW_TYPE_ADMIN = 1
+    private val VIEW_TYPE_USER = 2
+    fun updateData(newItems: List<TrendsDomain>) {
         items = newItems
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =  ViewholderTrendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-        // Mengembalikan ViewHolder dengan binding yang telah diinflate
-        return ViewHolder(binding)
+    override fun getItemViewType(position: Int): Int {
+        return if (userRole == "admin") VIEW_TYPE_ADMIN else VIEW_TYPE_USER
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val trend = items[position]
-        holder.binding.title.text = trend.title
-        holder.binding.subtitle.text = trend.subtitle
-
-        // Mencetak semua isi dari trend
-//        Log.d("TrendsAdapter", "Trend Item: $trend")
-
-        val drawableResourceId = context.resources.getIdentifier(trend.picAddress, "drawable", context.packageName)
-        if (trend.picAddress.startsWith("http") || trend.picAddress.startsWith("https")) {
-            Picasso.get()
-                .load(trend.picAddress)
-                .into(holder.binding.pic)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_ADMIN) {
+            val binding = ItemTrendAdminBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            AdminViewHolder(binding)
         } else {
-            holder.binding.pic.setImageResource(drawableResourceId)
+            val binding = ViewholderTrendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            UserViewHolder(binding)
         }
+    }
 
-        holder.itemView.setOnClickListener {
-            val title = trend.title
-            val description = trend.description
-            val price = trend.price
-            val imageResource = context.resources.getIdentifier(trend.picAddress, "drawable", context.packageName)
-            val isFavorite = trend.isFavorite
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val trend = items[position]
 
+        if (holder is AdminViewHolder) {
+            holder.binding.Title.text = trend.title
+            holder.binding.Subtitle.text = trend.subtitle
 
-            val bundle = Bundle().apply {
-                putString("title", title)
-                putString("description", description)
-                putString("price", price)
-                putInt("image", imageResource)
-                putBoolean("isFavorite", isFavorite)
+            loadImage(trend.picAddress, holder.binding.Image)
+
+            holder.binding.btnEdit.setOnClickListener {
+
             }
 
-            val activity = context as? MainActivity
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_container, DetailFragment().apply { arguments = bundle })
-                ?.addToBackStack(null)
-                ?.commit()
+            holder.binding.btnDelete.setOnClickListener {
+                onDeleteClick(trend.title)
+            }
+        } else if (holder is UserViewHolder) {
+            // Binding untuk user
+            holder.binding.title.text = trend.title
+            holder.binding.subtitle.text = trend.subtitle
+
+            // Memuat gambar menggunakan Picasso
+            loadImage(trend.picAddress, holder.binding.pic)
+
+            holder.itemView.setOnClickListener {
+                openDetailFragment(trend)
+            }
+        }
+    }
+
+    private fun openDetailFragment(trend: TrendsDomain) {
+        val bundle = Bundle().apply {
+            putString("title", trend.title)
+            putString("description", trend.description)
+            putString("price", trend.price)
+            val imageResource = context.resources.getIdentifier(trend.picAddress, "drawable", context.packageName)
+            putInt("image", imageResource)
+            putBoolean("isFavorite", trend.isFavorite)
+        }
+
+        val activity = context as? MainActivity
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_container, DetailFragment().apply { arguments = bundle })
+            ?.addToBackStack(null)
+            ?.commit()
+    }
+
+    private fun loadImage(picAddress: String, imageView: ImageView) {
+        if (picAddress.startsWith("http") || picAddress.startsWith("https")) {
+            Picasso.get().load(picAddress).into(imageView)
+        } else {
+            val drawableResourceId = context.resources.getIdentifier(picAddress, "drawable", context.packageName)
+            imageView.setImageResource(drawableResourceId)
         }
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
-
-//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val title: TextView = itemView.findViewById(R.id.title)
-//        val subtitle: TextView = itemView.findViewById(R.id.subtitle)
-//        val pic: ImageView = itemView.findViewById(R.id.pic)
-//    }
-    class ViewHolder(val  binding: ViewholderTrendBinding) : RecyclerView.ViewHolder(binding.root)
+    class AdminViewHolder(val binding: ItemTrendAdminBinding) : RecyclerView.ViewHolder(binding.root)
+    class UserViewHolder(val binding: ViewholderTrendBinding) : RecyclerView.ViewHolder(binding.root)
 }

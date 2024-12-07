@@ -1,4 +1,4 @@
-package com.example.kitajalan.Activity
+package com.example.kitajalan.Activity.fragment
 
 import Adapter.MessageTabAdapter
 import android.os.Bundle
@@ -7,11 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.viewpager2.widget.ViewPager2
 import com.example.kitajalan.R
-import com.example.kitajalan.databinding.FragmentMainBinding
 import com.example.kitajalan.databinding.FragmentMessageBinding
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MessageFragment : Fragment() {
