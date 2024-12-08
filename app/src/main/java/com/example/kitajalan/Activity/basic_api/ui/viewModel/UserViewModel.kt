@@ -1,15 +1,13 @@
 package com.example.kitajalan.Activity.basic_api.ui.viewModel
 
 import android.content.Context
-import android.net.Network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.kitajalan.Activity.basic_api.data.model.User
 import com.example.kitajalan.Activity.basic_api.data.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
+import com.example.kitajalan.Activity.basic_api.utils.NetworkUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

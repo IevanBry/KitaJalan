@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kitajalan.Activity.basic_api.data.model.ApiResponse
 import com.example.kitajalan.Activity.basic_api.data.model.Destination
 import com.example.kitajalan.Activity.basic_api.data.repository.SerpApiRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.kitajalan.Activity.basic_api.utils.NetworkUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

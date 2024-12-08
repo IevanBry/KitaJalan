@@ -1,15 +1,14 @@
 package com.example.kitajalan.Activity.basic_api.ui.viewModel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kitajalan.Activity.basic_api.data.model.ProductPostRequest
 import com.example.kitajalan.Activity.basic_api.data.model.TrendsPostRequest
 import com.example.kitajalan.Activity.basic_api.data.model.TrendsResponse
 import com.example.kitajalan.Activity.basic_api.data.repository.TrendsRepository
+import com.example.kitajalan.Activity.basic_api.utils.NetworkUtils
 import kotlinx.coroutines.launch
 
 class TrendsViewModel(private val repository: TrendsRepository) : ViewModel(){

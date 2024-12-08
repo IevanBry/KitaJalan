@@ -28,7 +28,6 @@ class AdminDestinationFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var trendsAdapter: TrendsAdapter
-    private val trendsList: MutableList<TrendsDomain> = mutableListOf()
 
     private val trendsViewModel: TrendsViewModel by activityViewModels {
         ViewModelFactory(TrendsViewModel::class.java) {
@@ -125,7 +124,6 @@ class AdminDestinationFragment : Fragment() {
                         "Destinasi berhasil ditambahkan!",
                         Snackbar.LENGTH_SHORT
                     ).show()
-                    getDestination()
                 }
 
                 is Resource.Error -> {
@@ -150,7 +148,6 @@ class AdminDestinationFragment : Fragment() {
 
                 is Resource.Success -> {
                     Snackbar.make(binding.root, "Destinasi berhasil dihapus!", Snackbar.LENGTH_SHORT).show()
-                    getDestination()
                 }
 
                 is Resource.Error -> {

@@ -1,4 +1,4 @@
-package com.example.kitajalan.Activity.basic_api.ui.viewModel
+package com.example.kitajalan.Activity.basic_api.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -13,7 +13,6 @@ object NetworkUtils {
         return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
-    // Alternative method for lower API versions
     @Suppress("DEPRECATION")
     fun isNetworkAvailableLegacy(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

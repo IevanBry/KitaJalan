@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.kitajalan.Activity.basic_api.data.model.ProductPostRequest
 import com.example.kitajalan.Activity.basic_api.data.model.ProductResponse
 import com.example.kitajalan.Activity.basic_api.data.repository.ProductRepository
+import com.example.kitajalan.Activity.basic_api.utils.NetworkUtils
 import kotlinx.coroutines.launch
 
 class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
