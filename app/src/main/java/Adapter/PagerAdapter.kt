@@ -2,7 +2,7 @@ package Adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.kitajalan.Activity.WelcomeScreenActivity
+import com.example.kitajalan.activity.WelcomeScreenActivity
 
 class PagerAdapter (
     activity: WelcomeScreenActivity,

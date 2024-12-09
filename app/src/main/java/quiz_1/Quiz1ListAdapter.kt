@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.kitajalan.Activity.basic_list_view.ListModel
 import com.example.kitajalan.R
 
 class Quiz1ListAdapter (

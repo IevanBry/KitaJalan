@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kitajalan.Activity.basic_api.data.model.Destination
+import com.example.kitajalan.basic_api.data.model.Destination
 import com.example.kitajalan.R
 import com.squareup.picasso.Picasso
 

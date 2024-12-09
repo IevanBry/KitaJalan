@@ -7,13 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import basic_list_view.SettingsAdapter
-import com.example.kitajalan.Activity.basic_list_view.ListAdapter
-import com.example.kitajalan.Activity.basic_list_view.ListModel
-import com.example.kitajalan.Activity.basic_list_view.ListViews
-import com.example.kitajalan.Activity.basic_recyclerview.RecyclerViewActivity
-import com.example.kitajalan.Activity.fragment.AboutUsFragment
-import com.example.kitajalan.Activity.fragment.HelpSupportFragment
+import com.example.kitajalan.basic_list_view.ListAdapter
+import com.example.kitajalan.basic_list_view.ListModel
 import com.example.kitajalan.R
 
 class Quiz1Activity : AppCompatActivity() {

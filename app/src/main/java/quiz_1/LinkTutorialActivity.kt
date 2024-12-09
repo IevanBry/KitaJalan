@@ -1,19 +1,14 @@
 package quiz_1
 
-import Adapter.PagerAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
-import android.webkit.WebView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.example.kitajalan.Activity.fragment.Welcome1Fragment
-import com.example.kitajalan.Activity.fragment.Welcome2Fragment
-import com.example.kitajalan.Activity.fragment.Welcome3Fragment
 import com.example.kitajalan.R
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 

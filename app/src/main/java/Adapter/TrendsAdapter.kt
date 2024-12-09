@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kitajalan.Activity.MainActivity
-import com.example.kitajalan.Activity.fragment.DetailFragment
+import com.example.kitajalan.activity.MainActivity
+import com.example.kitajalan.fragment.DetailFragment
 import com.example.kitajalan.R
-import com.example.kitajalan.Activity.basic_api.data.model.TrendsDomain
+import com.example.kitajalan.basic_api.data.model.TrendsDomain
 import com.example.kitajalan.databinding.ItemTrendAdminBinding
 import com.example.kitajalan.databinding.ViewholderTrendBinding
 import com.squareup.picasso.Picasso

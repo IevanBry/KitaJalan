@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@color/white"
-    tools:context=".Activity.fragment.SearchFragment">
+    tools:context=".activity.fragment.SearchFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
